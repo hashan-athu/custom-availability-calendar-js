@@ -216,11 +216,6 @@
 .timeslot-container
   > .timeslot-content-wrapper
   .row-timeslots
-  .loading-wrapper {
-}
-.timeslot-container
-  > .timeslot-content-wrapper
-  .row-timeslots
   .slots-wrapper
   .time-slot {
   text-align: center;
