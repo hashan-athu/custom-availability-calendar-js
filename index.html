@@ -1,0 +1,117 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Availability Calendar</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <!-- Calendar Section -->
+      <section>
+        <div class="calendar-wrapper">
+          <div id="availability-calendar">
+            <div class="calendar-header">
+              <div>
+                <span id="current-month">Month Year</span>
+              </div>
+              <div class="btn-wrapper">
+                <button id="prev-month">
+                  <span class="icon-i-185-back-fill"></span>
+                </button>
+                <button id="next-month">
+                  <span class="icon-i-77-next-fill"></span>
+                </button>
+              </div>
+            </div>
+            <div class="calendar-grid"></div>
+            <div class="loading-wrapper"><div class="custom-loader"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Popup Section -->
+      <section>
+        <div class="timeslot-container">
+          <div class="timeslot-content-wrapper">
+            <span id="close-timeslots" class="close-btn">
+              <span class="line-1"></span>
+              <span class="line-2"></span>
+            </span>
+
+            <div class="row-heading">
+              <h3 class="no-heading-underline">
+                $VAR_{"label":"Time Slots
+                Title","type":"text","sampledata":"Hall Hire
+                Availability","id":"var-1706674594556","status":"true"}_$VAR
+              </h3>
+              <h2 class="no-heading-underline" id="picked-date">
+                31 January 2024
+              </h2>
+            </div>
+
+            <div class="row-timeslots">
+              <div class="slots-wrapper"></div>
+              <div class="loading-wrapper"></div>
+            </div>
+
+            <div class="row-selects">
+              <form
+                id="availabilityDropDown"
+                class="cms-form form-timeslot-popup"
+              >
+                <div class="fb-select form-group">
+                  <label class="fb-text-label">
+                    Reservation Time - Start Time
+                    <span class="required-asterisk">*</span>
+                  </label>
+
+                  <div class="fb-inner fb-select-inner">
+                    <select
+                      class="form-control"
+                      name="form_time_start"
+                      required
+                    >
+                      <option value="" selected="selected" disabled="disabled">
+                        Select a start time
+                      </option>
+                      <!--DCB{"app": "dataTable","dcbName": "availabilityCalendarTimeSlotsSelection"}DCB-->
+                    </select>
+                  </div>
+                </div>
+
+                <div class="fb-select form-group">
+                  <label class="fb-text-label">
+                    Reservation Time - End Time
+                    <span class="required-asterisk">*</span>
+                  </label>
+
+                  <div class="fb-inner fb-select-inner">
+                    <select class="form-control" name="form_time_end" required>
+                      <option value="" selected="selected" disabled="disabled">
+                        Select a end time
+                      </option>
+                      <!--DCB{"app": "dataTable","dcbName": "availabilityCalendarTimeSlotsSelection"}DCB-->
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row-btn">
+              <div>
+                <a
+                  id="make-reservation"
+                  class="link-as-button-option-1 curve-edge btn-hide"
+                  href="#"
+                  >$VAR_{"label":"Button Text","type":"text","sampledata":"Make
+                  a Booking","id":"var-1706675513824","status":"true"}_$VAR</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

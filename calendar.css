@@ -1,0 +1,319 @@
+#availability-calendar {
+  text-align: center;
+  max-width: 630px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  border: 2px solid #d4d4d4;
+}
+
+#availability-calendar .calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 15px;
+  position: relative;
+  font-size: 2.2rem;
+}
+#availability-calendar .calendar-header::after {
+  content: "";
+  position: absolute;
+  width: calc(100% - 30px);
+  height: 1px;
+  background: #000;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#availability-calendar .calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 25px 15px;
+  background-color: #fff;
+}
+#availability-calendar .day.day-name {
+  border: none;
+  font-weight: bold;
+  height: 15px;
+}
+#availability-calendar .day {
+  text-align: center;
+  border: 3px solid #ff9e08;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  transition: 0.3s ease-out;
+}
+#availability-calendar .day:empty {
+  opacity: 0;
+}
+#availability-calendar #prev-month,
+#availability-calendar #next-month {
+  font-size: 1.6rem;
+  cursor: pointer;
+  border: none;
+  background: #ff9e08;
+  color: #fff;
+  padding: 8px 10px;
+}
+#availability-calendar #prev-month:hover,
+#availability-calendar #next-month:hover {
+  background: #092a46;
+}
+#availability-calendar #prev-month span,
+#availability-calendar #next-month span {
+  position: relative;
+  left: 2px;
+  top: 2px;
+}
+#availability-calendar #prev-month span {
+  left: 0;
+}
+#availability-calendar #prev-month.inactive {
+  display: none;
+}
+#availability-calendar .inactive {
+  color: #fff;
+  background: #ff9e08;
+  cursor: not-allowed;
+}
+
+#availability-calendar .partial-active {
+  background: #ff9e08;
+  background: linear-gradient(
+    225deg,
+    transparent 50%,
+    rgba(255, 155, 0, 1) 50%
+  );
+}
+#availability-calendar .partial-active:hover {
+  background: #092a46;
+  background: linear-gradient(225deg, transparent 50%, rgba(9, 42, 70, 1) 50%);
+  border-color: #092a46;
+}
+
+#availability-calendar .active {
+  cursor: pointer;
+}
+#availability-calendar .active:hover {
+  border: 3px solid #092a46;
+  color: #fff;
+  background: #092a46;
+  transition: 0.4s ease-out;
+}
+#availability-calendar .disabled {
+  border-color: #7a7a7a;
+  color: #7a7a7a;
+  cursor: default;
+}
+
+/* ======================== Time Slot Popup ============================  */
+
+.timeslot-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: var(--bg__booking-mask);
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s ease;
+}
+.timeslot-container.slots-open {
+  opacity: 1;
+  pointer-events: auto;
+  backdrop-filter: blur(5px);
+  transition: 0.4s ease-out;
+}
+
+.timeslot-container > .timeslot-content-wrapper {
+  background: var(--bg__booking-mask-foreground);
+  width: 100%;
+  height: 94%;
+  padding: 25px 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  z-index: 105;
+}
+.timeslot-container > .timeslot-content-wrapper .close-btn {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+.timeslot-container > .timeslot-content-wrapper .close-btn span {
+  width: 36px;
+  height: 2px;
+  display: block;
+  background: var(--color-primary);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: 0.3s ease;
+}
+.timeslot-container > .timeslot-content-wrapper .close-btn:hover span {
+  background: var(--color-secondary);
+  transition: 0.3s ease;
+}
+.timeslot-container > .timeslot-content-wrapper .close-btn:hover .line-1 {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transition: transform 0.5s ease-in-out;
+}
+.timeslot-container > .timeslot-content-wrapper .close-btn:hover .line-2 {
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+.timeslot-container > .timeslot-content-wrapper .close-btn .line-1 {
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: transform 0.5s ease-in-out;
+}
+.timeslot-container > .timeslot-content-wrapper .close-btn .line-2 {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transition: transform 0.5s ease-in-out;
+}
+.timeslot-container > .timeslot-content-wrapper .row-heading {
+  display: flex;
+  flex-direction: column;
+}
+.timeslot-container > .timeslot-content-wrapper .row-heading h2,
+.timeslot-container > .timeslot-content-wrapper .row-heading h3 {
+  margin: 0 auto;
+}
+.timeslot-container > .timeslot-content-wrapper .row-timeslots {
+  margin: 15px 0;
+  overflow-y: auto;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.timeslot-container > .timeslot-content-wrapper .row-timeslots .slots-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  max-width: 300px;
+  width: 100%;
+}
+.timeslot-container
+  > .timeslot-content-wrapper
+  .row-timeslots
+  .loading-wrapper {
+}
+.timeslot-container
+  > .timeslot-content-wrapper
+  .row-timeslots
+  .slots-wrapper
+  .time-slot {
+  text-align: center;
+  padding: 8px 13px;
+  border: 3px solid var(--color__default-text-color);
+  width: 100%;
+}
+.timeslot-container
+  > .timeslot-content-wrapper
+  .row-timeslots
+  .slots-wrapper
+  .time-slot.not-available {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color__primary-text-color);
+  pointer-events: none;
+}
+.timeslot-container
+  > .timeslot-content-wrapper
+  .row-timeslots
+  .slots-wrapper
+  .time-slot.available {
+  border-color: var(--color-secondary);
+  color: car(--color__default-text-color);
+}
+/*.timeslot-container > .timeslot-content-wrapper .row-timeslots .loading-wrapper .custom-loader {*/
+/*   height:4px;*/
+/*   width:130px;*/
+/*   position: relative;*/
+/*   background:*/
+/*    linear-gradient(#ff9e08 0 0),*/
+/*    linear-gradient(#ff9e08 0 0),*/
+/*    #E4E4ED;*/
+/*  background-size: 60% 100%;*/
+/*  background-repeat: no-repeat;*/
+/*  animation: p6 3s infinite;*/
+/*}*/
+
+/*@keyframes p6 {*/
+/*  0%   {background-position:-150% 0,-150% 0}*/
+/*  66%  {background-position: 250% 0,-150% 0}*/
+/*  100% {background-position: 250% 0, 250% 0}*/
+/*}*/
+
+.timeslot-container > .timeslot-content-wrapper .row-selects {
+  margin-bottom: 15px;
+}
+.timeslot-container > .timeslot-content-wrapper .row-selects .cms-form {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 15px;
+}
+.timeslot-container
+  > .timeslot-content-wrapper
+  .row-selects
+  .cms-form
+  .form-group {
+  width: 100%;
+}
+.timeslot-container > .timeslot-content-wrapper .row-btn {
+  display: flex;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+/* Loading Animation*/
+.loading-wrapper .custom-loader {
+  height: 4px;
+  width: 130px;
+  position: relative;
+  background: linear-gradient(#ff9e08 0 0), linear-gradient(#ff9e08 0 0),
+    #e4e4ed;
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: p6 3s infinite;
+}
+
+@keyframes p6 {
+  0% {
+    background-position: -150% 0, -150% 0;
+  }
+  66% {
+    background-position: 250% 0, -150% 0;
+  }
+  100% {
+    background-position: 250% 0, 250% 0;
+  }
+}
+
+#availability-calendar .loading-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
