@@ -1,0 +1,37 @@
+#availability-calendar .calendar-header {
+  padding: 25px 40px;
+  font-size: 3rem;
+}
+#availability-calendar .calendar-header::after {
+  width: calc(100% - 80px);
+}
+#availability-calendar .calendar-grid {
+  gap: 15px;
+  padding: 25px 40px;
+}
+#availability-calendar .day {
+  width: 40px;
+  height: 40px;
+  font-size: 2rem;
+}
+#availability-calendar .day.day-name {
+  height: 23px;
+}
+
+/* ======================== Timeslot Popup ============================  */
+
+.timeslot-container > .timeslot-content-wrapper .row-selects .cms-form {
+  gap: 0;
+}
+.timeslot-container
+  > .timeslot-content-wrapper
+  .row-selects
+  .cms-form
+  .form-group {
+  width: calc(50% - 15px);
+}
+
+.timeslot-container > .timeslot-content-wrapper {
+  width: 80%;
+  height: 50%;
+}

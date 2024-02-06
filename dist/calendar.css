@@ -1,15 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
-:root{
-  --font-heading: font-family: 'Playfair Display', serif;
-}
-body{
-  font-family: 'Open Sans', sans-serif;
-    font-size: 1.6rem;
-    line-height: 2.1rem;
-    color: #000;
-    font-weight: 400;
-}
-
 #availability-calendar {
   text-align: center;
   max-width: 630px;
@@ -323,53 +311,4 @@ body{
   justify-content: center;
   align-items: center;
   min-height: 150px;
-}
-
-@media only screen and (min-width: 768px) {
-  #availability-calendar .calendar-header {
-    padding: 25px 40px;
-    font-size: 3rem;
-  }
-  #availability-calendar .calendar-header::after {
-    width: calc(100% - 80px);
-  }
-  #availability-calendar .calendar-grid {
-    gap: 15px;
-    padding: 25px 40px;
-  }
-  #availability-calendar .day {
-    width: 40px;
-    height: 40px;
-    font-size: 2rem;
-  }
-  #availability-calendar .day.day-name {
-    height: 23px;
-  }
-
-  /* ======================== Timeslot Popup ============================  */
-
-  .timeslot-container > .timeslot-content-wrapper .row-selects .cms-form {
-    gap: 0;
-  }
-  .timeslot-container
-    > .timeslot-content-wrapper
-    .row-selects
-    .cms-form
-    .form-group {
-    width: calc(50% - 15px);
-  }
-
-  .timeslot-container > .timeslot-content-wrapper {
-    width: 80%;
-    height: 50%;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  /* ======================== Timeslot Popup ============================  */
-
-  .timeslot-container > .timeslot-content-wrapper {
-    width: 40%;
-    height: 75%;
-  }
 }

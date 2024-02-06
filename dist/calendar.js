@@ -29,119 +29,119 @@ const cleaningTime = 2; //Cleaning time in hours
  */
 
 // Function to get booked dates asynchronously using a Promise
-// function getBookedDates(targetMonth, targetYear) {
-//   // Show Loading Screen
-//   $("#availability-calendar .loading-wrapper").show();
+function getBookedDates(targetMonth, targetYear) {
+  // Show Loading Screen
+  $("#availability-calendar .loading-wrapper").show();
 
-//   return new Promise(function (resolve, reject) {
-//     $.ajax({
-//       url: bookingMonthURL,
-//       type: "GET",
-//       dataType: "json",
-//       success: function (response) {
-//         // Filter out non-object elements
-//         var validData = filterOutNonObjects(response.data);
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      url: bookingMonthURL,
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        // Filter out non-object elements
+        var validData = filterOutNonObjects(response.data);
 
-//         // Continue processing validData
-//         var transformedDates = processValidData(validData);
-//         resolve(transformedDates);
-//       },
-//       error: function (xhr, status, error) {
-//         // Reject the promise with an error message
-//         reject("AJAX request failed: " + status + " " + error);
-//       },
-//       complete: function () {
-//         // Remove loading message regardless of success or failure
-//         $("#availability-calendar .loading-wrapper").hide();
-//       },
-//     });
+        // Continue processing validData
+        var transformedDates = processValidData(validData);
+        resolve(transformedDates);
+      },
+      error: function (xhr, status, error) {
+        // Reject the promise with an error message
+        reject("AJAX request failed: " + status + " " + error);
+      },
+      complete: function () {
+        // Remove loading message regardless of success or failure
+        $("#availability-calendar .loading-wrapper").hide();
+      },
+    });
 
-//     // Function to filter out non-object elements from data
-//     function filterOutNonObjects(data) {
-//       return data.filter(function (item) {
-//         return typeof item === "object";
-//       });
-//     }
+    // Function to filter out non-object elements from data
+    function filterOutNonObjects(data) {
+      return data.filter(function (item) {
+        return typeof item === "object";
+      });
+    }
 
-//     // Function to process valid data
-//     function processValidData(validData) {
-//       // Function to filter data by month and year
-//       function filterDataByMonthAndYear(data, targetMonth, targetYear) {
-//         return data.filter(function (item) {
-//           // Check if the item has a 'date' property
-//           if (item.reservation_date) {
-//             // Parse the date string and get the month and year
-//             var dateParts = item.reservation_date.split("-");
-//             var itemMonth = parseInt(dateParts[1], 10);
-//             var itemYear = parseInt(dateParts[2], 10);
+    // Function to process valid data
+    function processValidData(validData) {
+      // Function to filter data by month and year
+      function filterDataByMonthAndYear(data, targetMonth, targetYear) {
+        return data.filter(function (item) {
+          // Check if the item has a 'date' property
+          if (item.reservation_date) {
+            // Parse the date string and get the month and year
+            var dateParts = item.reservation_date.split("-");
+            var itemMonth = parseInt(dateParts[1], 10);
+            var itemYear = parseInt(dateParts[2], 10);
 
-//             // Check if the item's month and year match the target month and year
-//             return itemMonth === targetMonth && itemYear === targetYear;
-//           } else {
-//             // Handle the case where 'date' is not defined
-//             return false;
-//           }
-//         });
-//       }
+            // Check if the item's month and year match the target month and year
+            return itemMonth === targetMonth && itemYear === targetYear;
+          } else {
+            // Handle the case where 'date' is not defined
+            return false;
+          }
+        });
+      }
 
-//       // Function to extract dates from filtered data
-//       function extractDates(filteredData) {
-//         return filteredData.map(function (item) {
-//           return item.reservation_date;
-//         });
-//       }
+      // Function to extract dates from filtered data
+      function extractDates(filteredData) {
+        return filteredData.map(function (item) {
+          return item.reservation_date;
+        });
+      }
 
-//       // Example: Filter data for February (assuming 1-based index for months)
-//       let indexedOneMonth = targetMonth + 1;
-//       var filteredData = filterDataByMonthAndYear(
-//         validData,
-//         indexedOneMonth,
-//         targetYear
-//       );
+      // Example: Filter data for February (assuming 1-based index for months)
+      let indexedOneMonth = targetMonth + 1;
+      var filteredData = filterDataByMonthAndYear(
+        validData,
+        indexedOneMonth,
+        targetYear
+      );
 
-//       // Extract dates from the filtered data
-//       var datesArray = extractDates(filteredData);
+      // Extract dates from the filtered data
+      var datesArray = extractDates(filteredData);
 
-//       // Determine if each date is fully booked for the entire day
-//       var fullyBookedDates = datesArray.filter(function (date) {
-//         var reservationsForDate = validData.filter(function (item) {
-//           return item.reservation_date === date;
-//         });
+      // Determine if each date is fully booked for the entire day
+      var fullyBookedDates = datesArray.filter(function (date) {
+        var reservationsForDate = validData.filter(function (item) {
+          return item.reservation_date === date;
+        });
 
-//         // Check if the date is fully booked based on the 'fullyBooked' property
-//         return (
-//           reservationsForDate.length > 0 &&
-//           reservationsForDate.every(function (item) {
-//             return item.full_day_booked === "Yes";
-//           })
-//         );
-//       });
+        // Check if the date is fully booked based on the 'fullyBooked' property
+        return (
+          reservationsForDate.length > 0 &&
+          reservationsForDate.every(function (item) {
+            return item.full_day_booked === "Yes";
+          })
+        );
+      });
 
-//       // Filter out fully booked dates to get not fully booked dates
-//       var notFullyBookedDates = datesArray.filter(function (date) {
-//         return !fullyBookedDates.includes(date);
-//       });
+      // Filter out fully booked dates to get not fully booked dates
+      var notFullyBookedDates = datesArray.filter(function (date) {
+        return !fullyBookedDates.includes(date);
+      });
 
-//       function transformDateFormat(datesArray) {
-//         return datesArray.map(function (date) {
-//           var parts = date.split("-");
-//           // Rearrange the parts to the desired format
-//           return parts[1] + "/" + parts[0] + "/" + parts[2];
-//         });
-//       }
+      function transformDateFormat(datesArray) {
+        return datesArray.map(function (date) {
+          var parts = date.split("-");
+          // Rearrange the parts to the desired format
+          return parts[1] + "/" + parts[0] + "/" + parts[2];
+        });
+      }
 
-//       var transformedFullyBookedDates = transformDateFormat(fullyBookedDates);
-//       var transformedNotFullyBookedDates =
-//         transformDateFormat(notFullyBookedDates);
+      var transformedFullyBookedDates = transformDateFormat(fullyBookedDates);
+      var transformedNotFullyBookedDates =
+        transformDateFormat(notFullyBookedDates);
 
-//       // Return the object with fullyBookedDates and notFullyBookedDates
-//       return {
-//         fullyBookedDates: fullyBookedDates,
-//         notFullyBookedDates: notFullyBookedDates,
-//       };
-//     }
-//   });
-// }
+      // Return the object with fullyBookedDates and notFullyBookedDates
+      return {
+        fullyBookedDates: fullyBookedDates,
+        notFullyBookedDates: notFullyBookedDates,
+      };
+    }
+  });
+}
 
 $(document).ready(function () {
   var currentDate = new Date();
@@ -173,33 +173,27 @@ $(document).ready(function () {
 
     $("#current-month").text(getMonthYearString(newYear, newMonth));
 
-    // getBookedDates(newMonth, newYear)
-    //   .then(function (transformedDates) {
-    //     // Access the resolved values
-    //     var fullyBookedDates = transformedDates.fullyBookedDates;
-    //     var notFullyBookedDates = transformedDates.notFullyBookedDates;
+    getBookedDates(newMonth, newYear)
+      .then(function (transformedDates) {
+        // Access the resolved values
+        var fullyBookedDates = transformedDates.fullyBookedDates;
+        var notFullyBookedDates = transformedDates.notFullyBookedDates;
 
-    //     // Now you can use these values as needed
-    //     //console.log('Fully Booked Dates:', fullyBookedDates);
-    //     //console.log('Not Fully Booked Dates:', notFullyBookedDates);
+        // Now you can use these values as needed
+        //console.log('Fully Booked Dates:', fullyBookedDates);
+        //console.log('Not Fully Booked Dates:', notFullyBookedDates);
 
-    //     // For example, pass them to the renderCalendar function
-    //     renderCalendar(
-    //       newYear,
-    //       newMonth,
-    //       notFullyBookedDates,
-    //       fullyBookedDates
-    //     );
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //   });
-
-    // Access the resolved values
-    var fullyBookedDates = ["14-02-2024", "28-02-2024"];
-    var notFullyBookedDates = ["12-02-2024", "20-02-2024", "25-02-2024"];
-
-    renderCalendar(newYear, newMonth, notFullyBookedDates, fullyBookedDates);
+        // For example, pass them to the renderCalendar function
+        renderCalendar(
+          newYear,
+          newMonth,
+          notFullyBookedDates,
+          fullyBookedDates
+        );
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
 
     displayMonth = newMonth;
     displayYear = newYear;
@@ -297,42 +291,27 @@ $(document).ready(function () {
     return date.toLocaleDateString("en-US", options);
   }
 
-  // // Get Values from the Data Table and mark Not available dates
-  // getBookedDates(currentMonth, currentYear)
-  //   .then(function (transformedDates) {
-  //     // Access the resolved values
-  //     var fullyBookedDates = transformedDates.fullyBookedDates;
-  //     var notFullyBookedDates = transformedDates.notFullyBookedDates;
+  // Get Values from the Data Table and mark Not available dates
+  getBookedDates(currentMonth, currentYear)
+    .then(function (transformedDates) {
+      // Access the resolved values
+      var fullyBookedDates = transformedDates.fullyBookedDates;
+      var notFullyBookedDates = transformedDates.notFullyBookedDates;
 
-  //     // Now you can use these values as needed
-  //     //console.log('Fully Booked Dates:', fullyBookedDates);
-  //     //console.log('Not Fully Booked Dates:', notFullyBookedDates);
+      // Now you can use these values as needed
+      //console.log('Fully Booked Dates:', fullyBookedDates);
+      //console.log('Not Fully Booked Dates:', notFullyBookedDates);
 
-  //     renderCalendar(
-  //       currentYear,
-  //       currentMonth,
-  //       notFullyBookedDates,
-  //       fullyBookedDates
-  //     );
-  //   })
-  //   .catch(function (error) {
-  //     console.error(error);
-  //   });
-
-  // Access the resolved values
-  var fullyBookedDates = ["14-02-2024", "28-02-2024"];
-  var notFullyBookedDates = ["12-02-2024", "20-02-2024", "25-02-2024"];
-
-  // Now you can use these values as needed
-  //console.log('Fully Booked Dates:', fullyBookedDates);
-  //console.log('Not Fully Booked Dates:', notFullyBookedDates);
-
-  renderCalendar(
-    currentYear,
-    currentMonth,
-    notFullyBookedDates,
-    fullyBookedDates
-  );
+      renderCalendar(
+        currentYear,
+        currentMonth,
+        notFullyBookedDates,
+        fullyBookedDates
+      );
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
 
   $("#prev-month").click(function () {
     $(".calendar-grid").empty();
